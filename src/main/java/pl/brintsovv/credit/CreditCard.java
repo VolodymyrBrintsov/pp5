@@ -1,18 +1,30 @@
 package pl.brintsovv.credit;
 
+import java.math.BigDecimal;
+
 public class CreditCard {
     private final String cardNumber;
-    int cardLimit = 100;
+    private BigDecimal cardLimit;
 
     public CreditCard(String cardNumber){
         this.cardNumber = cardNumber;
     }
 
-    public void assignLimit(int i) {
-        this.cardLimit = i;
+    public void assignLimit(BigDecimal i) {
+        System.out.println(i.compareTo(BigDecimal.valueOf(100)));
+        if (isBelowCreditLimit(i)){
+            throw new CreditLimitBelowLimitValue();
+        }
+        else {
+            this.cardLimit = i;
+        }
     }
 
-    public int getCurrentLimit() {
+    private boolean isBelowCreditLimit(BigDecimal i) {
+        return i.compareTo(BigDecimal.valueOf(100)) < 0;
+    }
+
+    public BigDecimal getCurrentLimit() {
         return this.cardLimit;
     }
 }

@@ -1,4 +1,5 @@
 package pl.brintsovv.credit;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -9,15 +10,18 @@ public class CreditCardTest {
     @Test
     public void itAllowsAssignLimitToCC(){
         CreditCard card = new CreditCard("1234-5678");
-        card.assignLimit(200);
-        assertEquals(200, card.getCurrentLimit());
+        card.assignLimit(BigDecimal.valueOf(200));
+        assertEquals(BigDecimal.valueOf(200), card.getCurrentLimit());
     }
 
     @Test
-    public void testNumbers(){
-        BigDecimal d1 = BigDecimal.valueOf(0.03);
-        BigDecimal d2 = BigDecimal.valueOf(0.02);
-
-        System.out.println(d1.subtract(d2));
+    public void itIsNotPossibleToAssignLimitBelowThreshold(){
+        CreditCard card = new CreditCard("1234-5678");
+        try{
+            card.assignLimit(BigDecimal.valueOf(50));
+            Assertions.fail("Exception should be thrown");
+        } catch (CreditLimitBelowLimitValue e){
+            assertTrue(true);
+        }
     }
 }
